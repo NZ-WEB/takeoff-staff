@@ -6,17 +6,17 @@ import { useTypedSelector } from '../../hooks/useTypedSelector';
 import { useDispatch } from 'react-redux';
 import { useEffect } from 'react';
 import { fetchContacts } from '../../store/actionCreators/contacts';
-import { AppDispatch } from '../../types/contactsReduser';
+import { AppDispatch, ContactsState } from '../../types/contactsReduser';
 
 export const Home = (): JSX.Element => {
-  const { contacts, error, loading } = useTypedSelector(
+  const { contacts, error, loading }: ContactsState = useTypedSelector(
     (state) => state.contacts
   );
 
   const dispatch: AppDispatch = useDispatch();
 
   useEffect(() => {
-    dispatch(fetchContacts()).then((r) => console.log(r, 'result'));
+    dispatch(fetchContacts());
   }, []);
 
   return (
@@ -24,11 +24,19 @@ export const Home = (): JSX.Element => {
       <Container>
         {error && <h4>error</h4>}
 
+        {loading && <h2>loading</h2>}
+
         <AppFilter />
 
-        <AppContact />
-        <AppContact />
-        <AppContact />
+        {contacts.map((contact) => (
+          <AppContact
+            key={contact.id}
+            id={contact.id}
+            fullName={contact.fullName}
+            phoneNumber={contact.phoneNumber}
+            avatar={contact.avatar}
+          />
+        ))}
 
         <TheAddNewContact />
       </Container>

@@ -1,21 +1,42 @@
 import {
-  ContactsAction,
   ContactActionTypes,
+  ContactsAction,
 } from '../../types/contactsReduser';
 import { Dispatch } from 'redux';
+import { IContactInterface } from '../../types/IContact.interface';
 
 export const fetchContacts = () => {
   return async (dispatch: Dispatch<ContactsAction>) => {
     try {
       dispatch({ type: ContactActionTypes.FETCH_CONTACTS });
-      setTimeout(() => {
+
+      new Promise<IContactInterface[]>((res) => {
+        const data = localStorage.getItem('contacts');
+
+        if (data) {
+          res(JSON.parse(data));
+        } else {
+          res([
+            {
+              id: 1,
+              fullName: 'first',
+              phoneNumber: '891052141',
+              avatar: 'awfawfaw',
+            },
+            {
+              id: 2,
+              fullName: 'second',
+              phoneNumber: '891052141',
+              avatar: 'awfawfaw',
+            },
+          ]);
+        }
+      }).then((r: IContactInterface[]) =>
         dispatch({
           type: ContactActionTypes.FETCH_CONTACTS_SUCCESS,
-          payload: [
-            { id: 1, fullName: '123', phoneNumber: '123', avatar: '123' },
-          ],
-        });
-      }, 500);
+          payload: r,
+        })
+      );
     } catch (e) {
       dispatch({
         type: ContactActionTypes.FETCH_CONTACTS_ERROR,
