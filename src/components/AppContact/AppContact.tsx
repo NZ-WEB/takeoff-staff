@@ -23,7 +23,6 @@ export const AppContact = ({
   const dispatch: AppDispatch = useDispatch();
 
   const handleDelete = async () => {
-    console.log(1);
     await dispatch(deleteContact(id));
   };
 

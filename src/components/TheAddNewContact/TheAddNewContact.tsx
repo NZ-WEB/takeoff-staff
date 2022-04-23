@@ -10,16 +10,24 @@ import { useTypedSelector } from '../../hooks/useTypedSelector';
 import { useDispatch } from 'react-redux';
 import { IContactInterface } from '../../types/IContact.interface';
 import { addContact } from '../../store/actionCreators/contacts';
+import { SubmitHandler, useForm } from 'react-hook-form';
 
 export const TheAddNewContact = (): JSX.Element => {
   const [isOpened, setIsOpened] = useState<boolean>(false);
-  const { contacts, error, loading }: ContactsState = useTypedSelector(
-    (state) => state.contacts
-  );
+  const {
+    register,
+    handleSubmit,
+    watch,
+    formState: { errors },
+  } = useForm<IContactInterface>();
   const dispatch: AppDispatch = useDispatch();
 
   const handleIsOpened = () => {
     setIsOpened(!isOpened);
+  };
+
+  const onSubmit: SubmitHandler<IContactInterface> = (data) => {
+    addNewContact(data);
   };
 
   const addNewContact = async (contact: IContactInterface) => {
@@ -35,24 +43,32 @@ export const TheAddNewContact = (): JSX.Element => {
       {isOpened && (
         <Card variant="outlined" sx={{ padding: '1em' }}>
           <CardHeader title="Add new contact" />
-          <form>
-            <TextField margin="normal" fullWidth label="Full Name" />
-            <TextField margin="normal" fullWidth label="Phone number" />
-            <TextField margin="normal" fullWidth label="Avatar link" />
-            <Button
-              onClick={() => {
-                addNewContact({
-                  id: 1,
-                  fullName: '1234',
-                  phoneNumber: '1234',
-                  avatar: '12',
-                });
-              }}
-              color="primary"
+          <form onSubmit={handleSubmit(onSubmit)}>
+            <TextField
+              required
+              error={!!errors.fullName}
+              margin="normal"
               fullWidth
-              variant="contained"
-            >
-              {' '}
+              label="Full Name"
+              helperText={errors.fullName ? 'This field is required!' : ''}
+              {...register('fullName', { required: true })}
+            />
+            <TextField
+              required
+              error={!!errors.phoneNumber}
+              helperText={errors.phoneNumber ? 'This field is required!' : ''}
+              margin="normal"
+              fullWidth
+              label="Phone number"
+              {...register('phoneNumber', { required: true })}
+            />
+            <TextField
+              margin="normal"
+              fullWidth
+              label="Avatar link"
+              {...register('avatar', { required: false })}
+            />
+            <Button type="submit" color="primary" fullWidth variant="contained">
               Add
             </Button>
           </form>

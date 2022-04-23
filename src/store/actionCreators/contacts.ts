@@ -45,13 +45,19 @@ export const addContact = (contact: IContactInterface) => {
 
         if (data) {
           const parsedData = JSON.parse(data);
-          const newData = [...parsedData, contact];
+          const newData = [
+            ...parsedData,
+            {
+              ...contact,
+              id: parsedData.length * Math.trunc(Math.random() * 104),
+            },
+          ];
 
           localStorage.setItem('contacts', JSON.stringify(newData));
           res(newData);
           payload = newData;
         } else {
-          const newData = [contact];
+          const newData = [{ ...contact, id: Math.trunc(Math.random() * 104) }];
           localStorage.setItem('contacts', JSON.stringify(newData));
           res(newData);
           payload = newData;
