@@ -1,8 +1,9 @@
-import { IContactInterface } from './IContact.interface';
+import { ThunkDispatch } from 'redux-thunk';
+import { AnyAction } from 'redux';
 export interface ContactsState {
   loading: boolean;
   error: null | string;
-  contacts: IContactInterface[];
+  contacts: any[];
 }
 
 export enum ContactActionTypes {
@@ -17,14 +18,17 @@ interface FetchContactsAction {
 
 interface FetchContactsSuccessAction {
   type: ContactActionTypes.FETCH_CONTACTS_SUCCESS;
-  payload: IContactInterface[];
+  payload: any[];
 }
 
 interface FetchContactsErrorAction {
   type: ContactActionTypes.FETCH_CONTACTS_ERROR;
-  payload: string | null;
+  payload: string;
 }
-export type ContactsActionType =
+
+export type AppDispatch = ThunkDispatch<ContactsState, any, AnyAction>;
+
+export type ContactsAction =
   | FetchContactsAction
   | FetchContactsSuccessAction
   | FetchContactsErrorAction;

@@ -1,4 +1,8 @@
-import {ContactActionTypes, ContactsActionType, ContactsState} from "../../types/contactsReduser";
+import {
+  ContactActionTypes,
+  ContactsAction,
+  ContactsState,
+} from '../../types/contactsReduser';
 
 const initialState = {
   contacts: [],
@@ -8,7 +12,7 @@ const initialState = {
 
 export const contactsReducer = (
   state: ContactsState = initialState,
-  action: ContactsActionType
+  action: ContactsAction
 ): ContactsState => {
   switch (action.type) {
     case ContactActionTypes.FETCH_CONTACTS:
