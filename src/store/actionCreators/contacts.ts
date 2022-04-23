@@ -16,20 +16,7 @@ export const fetchContacts = () => {
         if (data) {
           res(JSON.parse(data));
         } else {
-          res([
-            {
-              id: 1,
-              fullName: 'first',
-              phoneNumber: '891052141',
-              avatar: 'awfawfaw',
-            },
-            {
-              id: 2,
-              fullName: 'second',
-              phoneNumber: '891052141',
-              avatar: 'awfawfaw',
-            },
-          ]);
+          res([]);
         }
       }).then((r: IContactInterface[]) =>
         dispatch({
@@ -42,6 +29,32 @@ export const fetchContacts = () => {
         type: ContactActionTypes.FETCH_CONTACTS_ERROR,
         payload: 'Произошла ошибка при загрузке пользователей',
       });
+    }
+  };
+};
+
+export const addContact = (contact: IContactInterface) => {
+  return async (dispatch: Dispatch<ContactsAction>) => {
+    dispatch({ type: ContactActionTypes.ADD_NEW_CONTACT });
+
+    try {
+      return new Promise<IContactInterface[]>((res) => {
+        const data = localStorage.getItem('contacts');
+
+        if (data) {
+          const parsedData = JSON.parse(data);
+          const newData = [...parsedData, contact];
+
+          localStorage.setItem('contacts', JSON.stringify(newData));
+          res(newData);
+        } else {
+          const newData = [contact];
+          localStorage.setItem('contacts', JSON.stringify(newData));
+          res(newData);
+        }
+      });
+    } catch (e) {
+      console.log(e);
     }
   };
 };
