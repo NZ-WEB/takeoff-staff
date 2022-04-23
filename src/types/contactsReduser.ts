@@ -14,6 +14,12 @@ export enum ContactActionTypes {
   ADD_NEW_CONTACT = 'ADD_NEW_CONTACT',
   ADD_NEW_CONTACT_SUCCESS = 'ADD_NEW_CONTACT_SUCCESS',
   ADD_NEW_CONTACT_ERROR = 'ADD_NEW_CONTACT_ERROR',
+  DELETE_CONTACT = 'DELETE_CONTACT',
+  DELETE_CONTACT_ERROR = 'DELETE_CONTACT_ERROR',
+  DELETE_CONTACT_SUCCESS = 'DELETE_CONTACT_SUCCESS',
+  UPDATE_CONTACT = ' UPDATE_CONTACT',
+  UPDATE_CONTACT_ERROR = ' UPDATE_CONTACT_ERROR',
+  UPDATE_CONTACT_SUCCESS = ' UPDATE_CONTACT_SUCCESS',
 }
 
 interface FetchContactsAction {
@@ -43,6 +49,33 @@ interface AddNewContactError {
   payload: string;
 }
 
+interface DeleteContact {
+  type: ContactActionTypes.DELETE_CONTACT;
+}
+
+interface DeleteContactSuccess {
+  type: ContactActionTypes.DELETE_CONTACT_SUCCESS;
+  payload: IContactInterface[];
+}
+interface DeleteContactError {
+  type: ContactActionTypes.DELETE_CONTACT_ERROR;
+  payload: string;
+}
+
+interface UpdateContact {
+  type: ContactActionTypes.UPDATE_CONTACT;
+}
+
+interface UpdateContactSuccess {
+  type: ContactActionTypes.UPDATE_CONTACT_SUCCESS;
+  payload: IContactInterface[];
+}
+
+interface UpdateContactError {
+  type: ContactActionTypes.UPDATE_CONTACT_ERROR;
+  payload: string;
+}
+
 export type AppDispatch = ThunkDispatch<ContactsState, any, AnyAction>;
 
 export type ContactsAction =
@@ -51,4 +84,10 @@ export type ContactsAction =
   | FetchContactsErrorAction
   | AddNewContactAction
   | AddNewContactSuccess
-  | AddNewContactError;
+  | AddNewContactError
+  | DeleteContact
+  | DeleteContactSuccess
+  | DeleteContactError
+  | UpdateContact
+  | UpdateContactSuccess
+  | UpdateContactError;

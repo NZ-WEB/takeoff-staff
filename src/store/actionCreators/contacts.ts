@@ -41,20 +41,61 @@ export const addContact = (contact: IContactInterface) => {
       return new Promise<IContactInterface[]>((res) => {
         const data = localStorage.getItem('contacts');
 
+        let payload;
+
         if (data) {
           const parsedData = JSON.parse(data);
           const newData = [...parsedData, contact];
 
           localStorage.setItem('contacts', JSON.stringify(newData));
           res(newData);
+          payload = newData;
         } else {
           const newData = [contact];
           localStorage.setItem('contacts', JSON.stringify(newData));
           res(newData);
+          payload = newData;
         }
+        dispatch({ type: ContactActionTypes.ADD_NEW_CONTACT_SUCCESS, payload });
       });
     } catch (e) {
       console.log(e);
+      dispatch({
+        type: ContactActionTypes.ADD_NEW_CONTACT_ERROR,
+        payload: 'adding new contact error',
+      });
+    }
+  };
+};
+
+export const deleteContact = (id: number) => {
+  return async (dispatch: Dispatch<ContactsAction>) => {
+    try {
+      dispatch({ type: ContactActionTypes.DELETE_CONTACT });
+      new Promise<IContactInterface[]>((res, rej) => {
+        const data = localStorage.getItem('contacts');
+
+        if (data) {
+          const parsedData: IContactInterface[] = JSON.parse(data);
+
+          const newData = parsedData.filter((contacts) => contacts.id !== id);
+
+          res(newData);
+          localStorage.setItem('contacts', JSON.stringify(newData));
+          dispatch({
+            type: ContactActionTypes.DELETE_CONTACT_SUCCESS,
+            payload: newData,
+          });
+        } else {
+          rej(new Error('local storage has not any contacts'));
+        }
+      });
+    } catch (e) {
+      console.log(e, 'delete contact error');
+      dispatch({
+        type: ContactActionTypes.DELETE_CONTACT_ERROR,
+        payload: 'Delete contacts error',
+      });
     }
   };
 };

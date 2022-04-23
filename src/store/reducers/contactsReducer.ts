@@ -31,6 +31,26 @@ export const contactsReducer = (
         error: action.payload,
         contacts: state.contacts,
       };
+    case ContactActionTypes.DELETE_CONTACT:
+      return { loading: true, error: null, contacts: state.contacts };
+    case ContactActionTypes.DELETE_CONTACT_SUCCESS:
+      return { loading: false, error: null, contacts: action.payload };
+    case ContactActionTypes.DELETE_CONTACT_ERROR:
+      return {
+        loading: false,
+        error: action.payload,
+        contacts: state.contacts,
+      };
+    case ContactActionTypes.UPDATE_CONTACT:
+      return { loading: true, error: null, contacts: state.contacts };
+    case ContactActionTypes.UPDATE_CONTACT_SUCCESS:
+      return { loading: false, error: null, contacts: action.payload };
+    case ContactActionTypes.UPDATE_CONTACT_ERROR:
+      return {
+        loading: false,
+        error: action.payload,
+        contacts: state.contacts,
+      };
     default:
       return state;
   }

@@ -6,6 +6,10 @@ import IconButton from '@mui/material/IconButton';
 import DeleteIcon from '@mui/icons-material/Delete';
 import EditIcon from '@mui/icons-material/Edit';
 import { IContactInterface } from '../../types/IContact.interface';
+import { AppDispatch, ContactsState } from '../../types/contactsReduser';
+import { useTypedSelector } from '../../hooks/useTypedSelector';
+import { useDispatch } from 'react-redux';
+import { deleteContact } from '../../store/actionCreators/contacts';
 
 export const AppContact = ({
   id,
@@ -13,6 +17,16 @@ export const AppContact = ({
   phoneNumber,
   avatar,
 }: IContactInterface) => {
+  const { contacts, error, loading }: ContactsState = useTypedSelector(
+    (state) => state.contacts
+  );
+  const dispatch: AppDispatch = useDispatch();
+
+  const handleDelete = async () => {
+    console.log(1);
+    await dispatch(deleteContact(id));
+  };
+
   return (
     <List>
       <ListItem>
@@ -35,7 +49,7 @@ export const AppContact = ({
             <IconButton>
               <EditIcon />
             </IconButton>
-            <IconButton>
+            <IconButton onClick={() => handleDelete()}>
               <DeleteIcon />
             </IconButton>
           </Grid>
