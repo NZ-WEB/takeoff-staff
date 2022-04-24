@@ -90,12 +90,17 @@ export const AppContact = ({
                     required
                     error={!!errors.phoneNumber}
                     helperText={
-                      errors.phoneNumber ? 'This field is required!' : ''
+                      errors.phoneNumber
+                        ? 'This field is required and must be number!'
+                        : ''
                     }
                     defaultValue={phoneNumber}
                     margin="normal"
                     label="Phone number"
-                    {...register('phoneNumber', { required: true })}
+                    {...register('phoneNumber', {
+                      required: true,
+                      pattern: /^\d+$/,
+                    })}
                   />
                 ) : (
                   <b>{phoneNumber}</b>

@@ -56,11 +56,15 @@ export const TheAddNewContact = (): JSX.Element => {
             <TextField
               required
               error={!!errors.phoneNumber}
-              helperText={errors.phoneNumber ? 'This field is required!' : ''}
+              helperText={
+                errors.phoneNumber
+                  ? 'This field is required and must be number!'
+                  : ''
+              }
               margin="normal"
               fullWidth
               label="Phone number"
-              {...register('phoneNumber', { required: true })}
+              {...register('phoneNumber', { required: true, pattern: /^\d+$/ })}
             />
             <TextField
               margin="normal"
