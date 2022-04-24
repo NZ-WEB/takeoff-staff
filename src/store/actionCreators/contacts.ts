@@ -106,7 +106,7 @@ export const deleteContact = (id: number) => {
   };
 };
 
-export const updateContacts = (contact: IContactInterface) => {
+export const updateContact = (contact: IContactInterface) => {
   return async (dispatch: Dispatch<ContactsAction>) => {
     dispatch({ type: ContactActionTypes.UPDATE_CONTACT });
 
