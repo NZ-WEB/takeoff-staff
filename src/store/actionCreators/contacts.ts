@@ -105,3 +105,40 @@ export const deleteContact = (id: number) => {
     }
   };
 };
+
+export const updateContacts = (contact: IContactInterface) => {
+  return async (dispatch: Dispatch<ContactsAction>) => {
+    dispatch({ type: ContactActionTypes.UPDATE_CONTACT });
+
+    try {
+      new Promise<IContactInterface[]>((res, rej) => {
+        const data = localStorage.getItem('contacts');
+
+        if (data) {
+          const parsedData: IContactInterface[] = JSON.parse(data);
+
+          const newContacts = parsedData.filter(
+            (contactData) => contactData.id !== contact.id
+          );
+
+          newContacts.push(contact);
+
+          localStorage.setItem('contacts', JSON.stringify(newContacts));
+          dispatch({
+            type: ContactActionTypes.UPDATE_CONTACT_SUCCESS,
+            payload: newContacts,
+          });
+
+          res(newContacts);
+        } else {
+          rej(new Error('contacts was not fined in localStorage'));
+        }
+      });
+    } catch (e) {
+      dispatch({
+        type: ContactActionTypes.UPDATE_CONTACT_ERROR,
+        payload: 'Update contact error',
+      });
+    }
+  };
+};
