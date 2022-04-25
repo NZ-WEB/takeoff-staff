@@ -1,14 +1,23 @@
 import { TextField } from '@mui/material';
-import { TextFieldProps } from 'material-ui';
-import Button from '@material-ui/core/Button';
-import Grid from '@material-ui/core/Grid';
+import { ChangeEvent, useState } from 'react';
+import { AppFilterProps } from './AppFilter.props';
 
-export const AppFilter = () => {
+export const AppFilter = ({ filterContacts }: AppFilterProps) => {
+  const [filter, setFilter] = useState<string>('');
+
+  const handleFilter = (
+    e: ChangeEvent<HTMLTextAreaElement | HTMLInputElement>
+  ) => {
+    setFilter(e.target.value);
+    filterContacts(e.target.value);
+  };
   return (
     <TextField
       id="outlined-basic"
       label="Find your contact"
       variant="outlined"
+      value={filter}
+      onChange={(e) => handleFilter(e)}
       fullWidth
     />
   );
