@@ -5,7 +5,7 @@ import Button from '@material-ui/core/Button';
 import CloseIcon from '@mui/icons-material/Close';
 import { AppLayout } from '../../layout/AppLayout';
 import { useState } from 'react';
-import { AppDispatch, ContactsState } from '../../types/contactsReduser';
+import { ContactsDispatch, ContactsState } from '../../types/contactsReduser';
 import { useTypedSelector } from '../../hooks/useTypedSelector';
 import { useDispatch } from 'react-redux';
 import { IContactInterface } from '../../types/IContact.interface';
@@ -20,7 +20,7 @@ export const TheAddNewContact = (): JSX.Element => {
     watch,
     formState: { errors },
   } = useForm<IContactInterface>();
-  const dispatch: AppDispatch = useDispatch();
+  const dispatch: ContactsDispatch = useDispatch();
 
   const handleIsOpened = () => {
     setIsOpened(!isOpened);

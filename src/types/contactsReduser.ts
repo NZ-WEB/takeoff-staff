@@ -76,7 +76,7 @@ interface UpdateContactError {
   payload: string;
 }
 
-export type AppDispatch = ThunkDispatch<ContactsState, any, AnyAction>;
+export type ContactsDispatch = ThunkDispatch<ContactsState, any, AnyAction>;
 
 export type ContactsAction =
   | FetchContactsAction

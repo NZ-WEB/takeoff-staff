@@ -6,7 +6,7 @@ import IconButton from '@mui/material/IconButton';
 import DeleteIcon from '@mui/icons-material/Delete';
 import EditIcon from '@mui/icons-material/Edit';
 import { IContactInterface } from '../../types/IContact.interface';
-import { AppDispatch } from '../../types/contactsReduser';
+import { ContactsDispatch } from '../../types/contactsReduser';
 import CheckIcon from '@mui/icons-material/Check';
 import { useDispatch } from 'react-redux';
 import { deleteContact } from '../../store/actionCreators/contacts';
@@ -21,7 +21,7 @@ export const AppContact = ({
   avatar,
 }: IContactInterface) => {
   const [isEdit, setIsEdit] = useState<boolean>();
-  const dispatch: AppDispatch = useDispatch();
+  const dispatch: ContactsDispatch = useDispatch();
 
   const {
     register,

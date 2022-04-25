@@ -12,7 +12,10 @@ import MenuIcon from '@mui/icons-material/Menu';
 import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
 import ChevronRightIcon from '@mui/icons-material/ChevronRight';
 import { AppLayoutProps } from './AppLayout.props';
-import {Container} from "@mui/material";
+import { Container } from '@mui/material';
+import { useEffect, useState } from 'react';
+import { useTypedSelector } from '../hooks/useTypedSelector';
+import { IUser } from '../types/IUser';
 
 const drawerWidth = 240;
 
@@ -68,6 +71,7 @@ const DrawerHeader = styled('div')(({ theme }) => ({
 export const AppLayout = ({ children }: AppLayoutProps): JSX.Element => {
   const theme = useTheme();
   const [open, setOpen] = React.useState(false);
+  const [user, setUser] = useState<IUser>();
 
   const handleDrawerOpen = () => {
     setOpen(true);
@@ -76,6 +80,20 @@ export const AppLayout = ({ children }: AppLayoutProps): JSX.Element => {
   const handleDrawerClose = () => {
     setOpen(false);
   };
+
+  const getUser = () => {
+    const user = localStorage.getItem('user');
+
+    if (user) {
+      return JSON.parse(user);
+    } else {
+      return null;
+    }
+  };
+
+  useEffect(() => {
+    setUser(getUser());
+  }, []);
 
   return (
     <Box sx={{ display: 'flex' }}>
@@ -119,13 +137,11 @@ export const AppLayout = ({ children }: AppLayoutProps): JSX.Element => {
           </IconButton>
         </DrawerHeader>
         <Divider />
-        Login
+        {user && <Typography variant="subtitle1">{user.email}</Typography>}
       </Drawer>
       <Main open={open}>
         <DrawerHeader />
-       <Container>
-         { children }
-       </Container>
+        <Container>{children}</Container>
       </Main>
     </Box>
   );
